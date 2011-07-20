@@ -13,4 +13,4 @@
 ## Add symfony2 files from the downloaded archive
 
 Then commit everything again and push so that our remote repository contains everything needed to work.
-_Note:_ Symfony files could be added as a git submodule too instead of downloading everything.
+*Note:* Symfony files could be added as a git submodule too instead of downloading everything.
