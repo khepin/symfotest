@@ -9,3 +9,7 @@
 	git add *
 	git commit -m "add a first file describing what I did so far"
 	git push origin master
+
+## Add symfony2 files from the downloaded archive
+
+Then commit everything again and push so that our remote repository contains everything needed to work.
