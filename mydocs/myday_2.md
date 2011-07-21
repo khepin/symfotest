@@ -86,6 +86,11 @@ Or to make use of the standard layout already defined:
         Hello {{ name }}!
     {% endblock %}
 
+If template follows standard naming, we can just use the `@Template()` annotation on the controller action. This once again requires that we either use the fully qualified name for the annotation or that we import the Template class through the `use` statement.
+
+
+
+
 
 
 
