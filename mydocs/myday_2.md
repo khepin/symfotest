@@ -62,5 +62,42 @@ The bundle is created with a _Default_ controller, but our route is with the _He
         
     }
 
+### And a template
+
+First extend the standard controller which has a shortcut method to the templating engine. The new `indexAction` becomes
+
+    public function indexAction($name) {
+        $this->render("KhepinGolfBundle:Hello:index.html.twig", array('name' => $name));
+    }
+
+In the bundle's resource folder add a Hello folder containing `index.html.twig`, then this file contains:
+
+    <html>
+        <body>
+            Hello {{ name }}!
+        </body>
+    </html>
+
+Or to make use of the standard layout already defined:
+
+    {% extends '::base.html.twig' %}
+
+    {% block body %}
+        Hello {{ name }}!
+    {% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
