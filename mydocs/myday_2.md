@@ -25,5 +25,23 @@ Then add a route to the bundle's routing file:
         pattern:  /hello/{name}
         defaults: { _controller: KhepinGolfBundle:Hello:index }
 
+### Create a controller
+
+The bundle is created with a _Default_ controller, but our route is with the _Hello_ controller, so we need to create this controller. The controller is a plain PHP class, not extending anything (for now). It needs to be correctly namespaced (for autoloading). It has one public method: `indexAction($name)` that returns a `Response` object.
+
+    <?php
+
+    namespace Khepin\GolfBundle\Controller;
+
+    use Symfony\Component\HttpFoundation\Response;
+
+    class HelloController {
+        
+        public function indexAction($name) {
+            return new Response('<html><body>Hello '.$name.'</body></html>');
+        }
+        
+    }
+
 
 
