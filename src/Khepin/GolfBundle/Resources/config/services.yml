@@ -1,7 +1,0 @@
-parameters:
-#    khepin_golf.example.class: Khepin\GolfBundle\Example
-
-services:
-#    khepin_golf.example:
-#        class: %khepin_golf.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]

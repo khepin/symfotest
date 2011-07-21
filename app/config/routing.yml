@@ -3,7 +3,7 @@
 #   resource: "@FrameworkBundle/Resources/config/routing/internal.xml"
 #   prefix:   /_internal
 
-
 KhepinGolfBundle:
-  resource: "@KhepinGolfBundle/Resources/config/routing.yml"
+  resource: "@KhepinGolfBundle/Controller/HelloController.php"
+  type:     annotation
   prefix:   /

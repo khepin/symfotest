@@ -25,6 +25,25 @@ Then add a route to the bundle's routing file:
         pattern:  /hello/{name}
         defaults: { _controller: KhepinGolfBundle:Hello:index }
 
+Routes can be defined as anotations directly in the controller. Change the app/config/routing.yml to:
+
+    KhepinGolfBundle:
+        resource: "@KhepinGolfBundle/Controller/HelloController.php"
+        type:     annotation
+        prefix:   /
+
+The routing.yml in KhepinGolfBundle can be removed, and then in the controller, we add our annotations to the indexAction method like this:
+
+    /**
+     * @Route("/hello/{name}", name="hello")
+     * @param type $name
+     * @return Response 
+     */
+
+__Attention__: _Route_ here refers to the Route class, for this to work, we need to use the `use` statement to import this or use the fully qualified name to the Route class. So add the line:
+
+    use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+
 ### Create a controller
 
 The bundle is created with a _Default_ controller, but our route is with the _Hello_ controller, so we need to create this controller. The controller is a plain PHP class, not extending anything (for now). It needs to be correctly namespaced (for autoloading). It has one public method: `indexAction($name)` that returns a `Response` object.
