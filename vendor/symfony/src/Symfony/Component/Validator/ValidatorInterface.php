@@ -17,8 +17,6 @@ use Symfony\Component\Validator\Constraint;
  * Validates a given value.
  *
  * @author Bernhard Schussek <bernhard.schussek@symfony.com>
- *
- * @api
  */
 interface ValidatorInterface
 {
@@ -28,8 +26,6 @@ interface ValidatorInterface
      * @param object $object The object to validate
      * @param array|null $groups The validator groups to use for validating
      * @return ConstraintViolationList
-     *
-     * @api
      */
     function validate($object, $groups = null);
 
@@ -40,8 +36,6 @@ interface ValidatorInterface
      * @param string $property The name of the property to validate
      * @param array|null $groups The validator groups to use for validating
      * @return ConstraintViolationList
-     *
-     * @api
      */
     function validateProperty($object, $property, $groups = null);
 
@@ -53,8 +47,6 @@ interface ValidatorInterface
      * @param string     $value
      * @param array|null $groups   The validator groups to use for validating
      * @return ConstraintViolationList
-     *
-     * @api
      */
     function validatePropertyValue($class, $property, $value, $groups = null);
 
@@ -65,8 +57,6 @@ interface ValidatorInterface
      * @param Constraint $constraint The constraint to validate against
      * @param array|null $groups The validator groups to use for validating
      * @return ConstraintViolationList
-     *
-     * @api
      */
     function validateValue($value, Constraint $constraint, $groups = null);
 
@@ -74,8 +64,6 @@ interface ValidatorInterface
      * Returns the factory for ClassMetadata instances
      *
      * @return Mapping\ClassMetadataFactoryInterface
-     *
-     * @api
      */
     function getMetadataFactory();
 }

@@ -15,23 +15,15 @@ namespace Symfony\Component\HttpFoundation;
  * ResponseHeaderBag is a container for Response HTTP headers.
  *
  * @author Fabien Potencier <fabien@symfony.com>
- *
- * @api
  */
 class ResponseHeaderBag extends HeaderBag
 {
-    const COOKIES_FLAT  = 'flat';
-    const COOKIES_ARRAY = 'array';
-
     protected $computedCacheControl = array();
-    protected $cookies              = array();
 
     /**
      * Constructor.
      *
      * @param array $headers An array of HTTP headers
-     *
-     * @api
      */
     public function __construct(array $headers = array())
     {
@@ -48,7 +40,7 @@ class ResponseHeaderBag extends HeaderBag
     public function __toString()
     {
         $cookies = '';
-        foreach ($this->getCookies() as $cookie) {
+        foreach ($this->cookies as $cookie) {
             $cookies .= 'Set-Cookie: '.$cookie."\r\n";
         }
 
@@ -57,8 +49,6 @@ class ResponseHeaderBag extends HeaderBag
 
     /**
      * {@inheritdoc}
-     *
-     * @api
      */
     public function replace(array $headers = array())
     {
@@ -71,8 +61,6 @@ class ResponseHeaderBag extends HeaderBag
 
     /**
      * {@inheritdoc}
-     *
-     * @api
      */
     public function set($key, $values, $replace = true)
     {
@@ -88,8 +76,6 @@ class ResponseHeaderBag extends HeaderBag
 
     /**
      * {@inheritdoc}
-     *
-     * @api
      */
     public function remove($key)
     {
@@ -117,83 +103,12 @@ class ResponseHeaderBag extends HeaderBag
     }
 
     /**
-     * Sets a cookie.
-     *
-     * @param Cookie $cookie
-     * @return void
-     *
-     * @api
-     */
-    public function setCookie(Cookie $cookie)
-    {
-        $this->cookies[$cookie->getDomain()][$cookie->getPath()][$cookie->getName()] = $cookie;
-    }
-
-    /**
-     * Removes a cookie from the array, but does not unset it in the browser
-     *
-     * @param string $name
-     * @param string $path
-     * @param string $domain
-     * @return void
-     *
-     * @api
-     */
-    public function removeCookie($name, $path = null, $domain = null)
-    {
-        unset($this->cookies[$domain][$path][$name]);
-
-        if (empty($this->cookies[$domain][$path])) {
-            unset($this->cookies[$domain][$path]);
-
-            if (empty($this->cookies[$domain])) {
-                unset($this->cookies[$domain]);
-            }
-        }
-    }
-
-    /**
-     * Returns an array with all cookies
-     *
-     * @param string $format
-     *
-     * @throws \InvalidArgumentException When the $format is invalid
-     *
-     * @return array
-     *
-     * @api
-     */
-    public function getCookies($format = self::COOKIES_FLAT)
-    {
-        if (!in_array($format, array(self::COOKIES_FLAT, self::COOKIES_ARRAY))) {
-            throw new \InvalidArgumentException(sprintf('Format "%s" invalid (%s).', $format, implode(', ', array(self::COOKIES_FLAT, self::COOKIES_ARRAY))));
-        }
-
-        if (self::COOKIES_ARRAY === $format) {
-            return $this->cookies;
-        }
-
-        $flattenedCookies = array();
-        foreach ($this->cookies as $path) {
-            foreach ($path as $cookies) {
-                foreach ($cookies as $cookie) {
-                    $flattenedCookies[] = $cookie;
-                }
-            }
-        }
-
-        return $flattenedCookies;
-    }
-
-    /**
      * Clears a cookie in the browser
      *
      * @param string $name
      * @param string $path
      * @param string $domain
      * @return void
-     *
-     * @api
      */
     public function clearCookie($name, $path = null, $domain = null)
     {

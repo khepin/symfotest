@@ -13,11 +13,7 @@ namespace Symfony\Component\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 
-/**
- * @Annotation
- *
- * @api
- */
+/** @Annotation */
 class Time extends Constraint
 {
     public $message = 'This value is not a valid time';

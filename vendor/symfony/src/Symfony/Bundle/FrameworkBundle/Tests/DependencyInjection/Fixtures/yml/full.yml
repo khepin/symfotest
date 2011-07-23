@@ -47,4 +47,3 @@ framework:
         cache:   file
         debug:   true
         file_cache_dir: %kernel.cache_dir%/annotations
-    ide: file%%link%%format

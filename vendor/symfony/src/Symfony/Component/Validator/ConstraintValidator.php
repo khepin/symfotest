@@ -11,9 +11,6 @@
 
 namespace Symfony\Component\Validator;
 
-/*
- * @api
- */
 abstract class ConstraintValidator implements ConstraintValidatorInterface
 {
     /**
@@ -41,8 +38,6 @@ abstract class ConstraintValidator implements ConstraintValidatorInterface
 
     /**
      * {@inheritDoc}
-     *
-     * @api
      */
     public function getMessageTemplate()
     {
@@ -51,17 +46,12 @@ abstract class ConstraintValidator implements ConstraintValidatorInterface
 
     /**
      * {@inheritDoc}
-     *
-     * @api
      */
     public function getMessageParameters()
     {
         return $this->messageParameters;
     }
 
-    /**
-     * @api
-     */
     protected function setMessage($template, array $parameters = array())
     {
         $this->messageTemplate = $template;

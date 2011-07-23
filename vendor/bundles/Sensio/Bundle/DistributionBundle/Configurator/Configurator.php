@@ -98,36 +98,6 @@ class Configurator
     }
 
     /**
-     * @return array
-     */
-    public function getRequirements()
-    {
-        $majors = array();
-        foreach ($this->steps as $step) {
-            foreach ($step->checkRequirements() as $major) {
-                $majors[] = $major;
-            }
-        }
-
-        return $majors;
-    }
-
-    /**
-     * @return array
-     */
-    public function getOptionalSettings()
-    {
-        $minors = array();
-        foreach ($this->steps as $step) {
-            foreach ($step->checkOptionalSettings() as $minor) {
-                $minors[] = $minor;
-            }
-        }
-
-        return $minors;
-    }
-
-    /**
      * Renders parameters as a string.
      *
      * @return string

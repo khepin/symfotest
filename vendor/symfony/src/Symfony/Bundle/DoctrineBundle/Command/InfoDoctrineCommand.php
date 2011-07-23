@@ -56,7 +56,7 @@ EOT
                                           ->getAllClassNames();
 
         if (!$entityClassNames) {
-            throw new \LogicException(
+            throw new \Exception(
                 'You do not have any mapped Doctrine ORM entities for any of your bundles. '.
                 'Create a class inside the Entity namespace of any of your bundles and provide '.
                 'mapping information for it with Annotations directly in the classes doc blocks '.

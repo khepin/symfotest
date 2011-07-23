@@ -15,8 +15,6 @@ namespace Symfony\Component\HttpFoundation;
  * RequestMatcher compares a pre-defined set of checks against a Request instance.
  *
  * @author Fabien Potencier <fabien@symfony.com>
- *
- * @api
  */
 class RequestMatcher implements RequestMatcherInterface
 {
@@ -88,8 +86,6 @@ class RequestMatcher implements RequestMatcherInterface
 
     /**
      * {@inheritdoc}
-     *
-     * @api
      */
     public function matches(Request $request)
     {
@@ -104,7 +100,11 @@ class RequestMatcher implements RequestMatcherInterface
         }
 
         if (null !== $this->path) {
-            $path = str_replace('#', '\\#', $this->path);
+            if (null !== $session = $request->getSession()) {
+                $path = strtr($this->path, array('{_locale}' => $session->getLocale(), '#' => '\\#'));
+            } else {
+                $path = str_replace('#', '\\#', $this->path);
+            }
 
             if (!preg_match('#'.$path.'#', $request->getPathInfo())) {
                 return false;
@@ -154,10 +154,6 @@ class RequestMatcher implements RequestMatcherInterface
      */
     protected function checkIp6($requestIp, $ip)
     {
-        if (!defined('AF_INET6')) {
-            throw new \RuntimeException('Unable to check Ipv6. Check that PHP was not compiled with option "disable-ipv6".');
-        }
-
         list($address, $netmask) = explode('/', $ip);
 
         $bytes_addr = unpack("n*", inet_pton($address));

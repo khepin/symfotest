@@ -15,8 +15,6 @@ namespace Symfony\Component\HttpKernel;
  * Contains all events thrown in the HttpKernel component
  *
  * @author Bernhard Schussek <bernhard.schussek@symfony.com>
- *
- * @api
  */
 final class KernelEvents
 {
@@ -30,8 +28,6 @@ final class KernelEvents
      * instance.
      *
      * @var string
-     *
-     * @api
      */
     const REQUEST = 'kernel.request';
 
@@ -44,8 +40,6 @@ final class KernelEvents
      * instance.
      *
      * @var string
-     *
-     * @api
      */
     const EXCEPTION = 'kernel.exception';
 
@@ -59,8 +53,6 @@ final class KernelEvents
      * instance.
      *
      * @var string
-     *
-     * @api
      */
     const VIEW = 'kernel.view';
 
@@ -73,8 +65,6 @@ final class KernelEvents
      * Symfony\Component\HttpKernel\Event\FilterControllerEvent instance.
      *
      * @var string
-     *
-     * @api
      */
     const CONTROLLER = 'kernel.controller';
 
@@ -87,8 +77,6 @@ final class KernelEvents
      * Symfony\Component\HttpKernel\Event\FilterResponseEvent instance.
      *
      * @var string
-     *
-     * @api
      */
     const RESPONSE = 'kernel.response';
 }

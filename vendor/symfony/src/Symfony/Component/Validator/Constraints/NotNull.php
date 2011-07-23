@@ -13,11 +13,7 @@ namespace Symfony\Component\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 
-/**
- * @Annotation
- *
- * @api
- */
+/** @Annotation */
 class NotNull extends Constraint
 {
     public $message = 'This value should not be null';

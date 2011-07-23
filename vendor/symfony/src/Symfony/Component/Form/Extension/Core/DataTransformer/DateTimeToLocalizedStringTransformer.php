@@ -23,9 +23,8 @@ use Symfony\Component\Form\Exception\UnexpectedTypeException;
 class DateTimeToLocalizedStringTransformer extends BaseDateTimeTransformer
 {
     private $dateFormat;
+
     private $timeFormat;
-    private $pattern;
-    private $calendar;
 
     /**
      * Constructor.
@@ -40,7 +39,7 @@ class DateTimeToLocalizedStringTransformer extends BaseDateTimeTransformer
      * @throws UnexpectedTypeException If a format is not supported
      * @throws UnexpectedTypeException if a timezone is not a string
      */
-    public function __construct($inputTimezone = null, $outputTimezone = null, $dateFormat = null, $timeFormat = null, $calendar = \IntlDateFormatter::GREGORIAN, $pattern = null)
+    public function __construct($inputTimezone = null, $outputTimezone = null, $dateFormat = null, $timeFormat = null)
     {
         parent::__construct($inputTimezone, $outputTimezone);
 
@@ -62,8 +61,6 @@ class DateTimeToLocalizedStringTransformer extends BaseDateTimeTransformer
 
         $this->dateFormat = $dateFormat;
         $this->timeFormat = $timeFormat;
-        $this->calendar = $calendar;
-        $this->pattern = $pattern;
     }
 
     /**
@@ -149,12 +146,11 @@ class DateTimeToLocalizedStringTransformer extends BaseDateTimeTransformer
      */
     protected function getIntlDateFormatter()
     {
-        $dateFormat = $this->dateFormat;
-        $timeFormat = $this->timeFormat;
-        $timezone = $this->outputTimezone;
-        $calendar = $this->calendar;
-        $pattern = $this->pattern;
-
-        return new \IntlDateFormatter(\Locale::getDefault(), $dateFormat, $timeFormat, $timezone, $calendar, $pattern);
+        return new \IntlDateFormatter(
+             \Locale::getDefault(),
+             $this->dateFormat,
+             $this->timeFormat,
+             $this->outputTimezone
+        );
     }
 }

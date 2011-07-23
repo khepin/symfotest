@@ -16,7 +16,6 @@ use Symfony\Component\Form\Guess\Guess;
 use Symfony\Component\Form\Guess\TypeGuess;
 use Symfony\Component\Form\Guess\ValueGuess;
 use Symfony\Bridge\Doctrine\RegistryInterface;
-use Doctrine\ORM\Mapping\MappingException;
 
 class DoctrineOrmTypeGuesser implements FormTypeGuesserInterface
 {
@@ -123,10 +122,8 @@ class DoctrineOrmTypeGuesser implements FormTypeGuesserInterface
 
         $this->cache[$class] = null;
         foreach ($this->registry->getEntityManagers() as $name => $em) {
-            try {
+            if (!$em->getConfiguration()->getMetadataDriverImpl()->isTransient($class)) {
                 return $this->cache[$class] = array($em->getClassMetadata($class), $name);
-            } catch (MappingException $e) {
-                // not an entity or mapped super class
             }
         }
     }

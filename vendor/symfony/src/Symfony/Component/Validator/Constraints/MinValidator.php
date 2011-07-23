@@ -13,22 +13,10 @@ namespace Symfony\Component\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
+use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
-/**
- * @api
- */
 class MinValidator extends ConstraintValidator
 {
-    /**
-     * Checks if the passed value is valid.
-     *
-     * @param mixed      $value      The value that should be validated
-     * @param Constraint $constraint The constrain for the validation
-     *
-     * @return Boolean Whether or not the value is valid
-     *
-     * @api
-     */
     public function isValid($value, Constraint $constraint)
     {
         if (null === $value) {
@@ -36,12 +24,7 @@ class MinValidator extends ConstraintValidator
         }
 
         if (!is_numeric($value)) {
-            $this->setMessage($constraint->invalidMessage, array(
-                '{{ value }}' => $value,
-                '{{ limit }}' => $constraint->limit,
-            ));
-
-            return false;
+            throw new UnexpectedTypeException($value, 'numeric');
         }
 
         if ($value < $constraint->limit) {

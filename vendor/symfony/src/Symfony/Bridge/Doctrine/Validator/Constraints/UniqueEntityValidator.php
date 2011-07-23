@@ -66,10 +66,6 @@ class UniqueEntityValidator extends ConstraintValidator
             }
 
             $criteria[$fieldName] = $class->reflFields[$fieldName]->getValue($entity);
-
-            if ($criteria[$fieldName] === null) {
-                return true;
-            }
         }
 
         $repository = $em->getRepository($className);

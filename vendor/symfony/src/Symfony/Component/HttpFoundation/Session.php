@@ -17,8 +17,6 @@ use Symfony\Component\HttpFoundation\SessionStorage\SessionStorageInterface;
  * Session.
  *
  * @author Fabien Potencier <fabien@symfony.com>
- *
- * @api
  */
 class Session implements \Serializable
 {
@@ -50,8 +48,6 @@ class Session implements \Serializable
 
     /**
      * Starts the session storage.
-     *
-     * @api
      */
     public function start()
     {
@@ -82,8 +78,6 @@ class Session implements \Serializable
      * @param string $name The attribute name
      *
      * @return Boolean true if the attribute is defined, false otherwise
-     *
-     * @api
      */
     public function has($name)
     {
@@ -97,8 +91,6 @@ class Session implements \Serializable
      * @param mixed  $default The default value
      *
      * @return mixed
-     *
-     * @api
      */
     public function get($name, $default = null)
     {
@@ -110,8 +102,6 @@ class Session implements \Serializable
      *
      * @param string $name
      * @param mixed  $value
-     *
-     * @api
      */
     public function set($name, $value)
     {
@@ -126,10 +116,8 @@ class Session implements \Serializable
      * Returns attributes.
      *
      * @return array Attributes
-     *
-     * @api
      */
-    public function all()
+    public function getAttributes()
     {
         return $this->attributes;
     }
@@ -138,10 +126,8 @@ class Session implements \Serializable
      * Sets attributes.
      *
      * @param array $attributes Attributes
-     *
-     * @api
      */
-    public function replace(array $attributes)
+    public function setAttributes(array $attributes)
     {
         if (false === $this->started) {
             $this->start();
@@ -154,8 +140,6 @@ class Session implements \Serializable
      * Removes an attribute.
      *
      * @param string $name
-     *
-     * @api
      */
     public function remove($name)
     {
@@ -170,8 +154,6 @@ class Session implements \Serializable
 
     /**
      * Clears all attributes.
-     *
-     * @api
      */
     public function clear()
     {
@@ -186,8 +168,6 @@ class Session implements \Serializable
 
     /**
      * Invalidates the current session.
-     *
-     * @api
      */
     public function invalidate()
     {
@@ -198,8 +178,6 @@ class Session implements \Serializable
     /**
      * Migrates the current session to a new session id while maintaining all
      * session attributes.
-     *
-     * @api
      */
     public function migrate()
     {
@@ -210,8 +188,6 @@ class Session implements \Serializable
      * Returns the session ID
      *
      * @return mixed  The session ID
-     *
-     * @api
      */
     public function getId()
     {
@@ -379,14 +355,10 @@ class Session implements \Serializable
 
     private function setPhpDefaultLocale($locale)
     {
-        // if either the class Locale doesn't exist, or an exception is thrown when
-        // setting the default locale, the intl module is not installed, and
-        // the call can be ignored:
         try {
-            if (class_exists('Locale', false)) {
-                \Locale::setDefault($locale);
-            }
+            \Locale::setDefault($this->locale);
         } catch (\Exception $e) {
+            // means that intl is not installed.
         }
     }
 }

@@ -3,7 +3,7 @@
      * Deletes a {{ entity }} entity.
      *
 {% if 'annotation' == format %}
-     * @Route("/{id}/delete", name="{{ route_name_prefix }}_delete")
+     * @Route("/{id}/delete", name="{{ route_prefix }}_delete")
      * @Method("post")
 {% endif %}
      */
@@ -12,21 +12,23 @@
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 
-        $form->bindRequest($request);
+        if ('POST' === $request->getMethod()) {
+            $form->bindRequest($request);
 
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getEntityManager();
-            $entity = $em->getRepository('{{ bundle }}:{{ entity }}')->find($id);
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getEntityManager();
+                $entity = $em->getRepository('{{ bundle }}:{{ entity }}')->find($id);
 
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find {{ entity }} entity.');
+                if (!$entity) {
+                    throw $this->createNotFoundException('Unable to find {{ entity }} entity.');
+                }
+
+                $em->remove($entity);
+                $em->flush();
             }
-
-            $em->remove($entity);
-            $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('{{ route_name_prefix }}'));
+        return $this->redirect($this->generateUrl('{{ route_prefix }}'));
     }
 
     private function createDeleteForm($id)

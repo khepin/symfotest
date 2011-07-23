@@ -22,21 +22,9 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Florian Eckerstorfer <florian@eckerstorfer.org>
  * @author Bernhard Schussek <bernhard.schussek@symfony.com>
- *
- * @api
  */
 class ChoiceValidator extends ConstraintValidator
 {
-    /**
-     * Checks if the passed value is valid.
-     *
-     * @param mixed      $value      The value that should be validated
-     * @param Constraint $constraint The constrain for the validation
-     *
-     * @return Boolean Whether or not the value is valid
-     *
-     * @api
-     */
     public function isValid($value, Constraint $constraint)
     {
         if (!$constraint->choices && !$constraint->callback) {
@@ -65,7 +53,7 @@ class ChoiceValidator extends ConstraintValidator
 
         if ($constraint->multiple) {
             foreach ($value as $_value) {
-                if (!in_array($_value, $choices, $constraint->strict)) {
+                if (!in_array($_value, $choices, true)) {
                     $this->setMessage($constraint->multipleMessage, array('{{ value }}' => $_value));
 
                     return false;
@@ -85,7 +73,7 @@ class ChoiceValidator extends ConstraintValidator
 
                 return false;
             }
-        } elseif (!in_array($value, $choices, $constraint->strict)) {
+        } elseif (!in_array($value, $choices, true)) {
             $this->setMessage($constraint->message, array('{{ value }}' => $value));
 
             return false;

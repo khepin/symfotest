@@ -13,37 +13,25 @@ namespace Symfony\Bundle\SecurityBundle\Tests\Functional;
 
 class SecurityRoutingIntegrationTest extends WebTestCase
 {
-    /**
-     * @dataProvider getConfigs
-     */
-    public function testRoutingErrorIsNotExposedForProtectedResourceWhenAnonymous($config)
+    public function testRoutingErrorIsNotExposedForProtectedResourceWhenAnonymous()
     {
-        $client = $this->createClient(array('test_case' => 'StandardFormLogin', 'root_config' => $config));
-        $client->insulate();
+        $client = $this->createClient(array('test_case' => 'StandardFormLogin'));
         $client->request('GET', '/protected_resource');
 
         $this->assertRedirect($client->getResponse(), '/login');
     }
 
-    /**
-     * @dataProvider getConfigs
-     */
-    public function testRoutingErrorIsExposedWhenNotProtected($config)
+    public function testRoutingErrorIsExposedWhenNotProtected()
     {
-        $client = $this->createClient(array('test_case' => 'StandardFormLogin', 'root_config' => $config));
-        $client->insulate();
+        $client = $this->createClient(array('test_case' => 'StandardFormLogin'));
         $client->request('GET', '/unprotected_resource');
 
-        $this->assertEquals(404, $client->getResponse()->getStatusCode(), (string) $client->getResponse());
+        $this->assertEquals(404, $client->getResponse()->getStatusCode());
     }
 
-    /**
-     * @dataProvider getConfigs
-     */
-    public function testRoutingErrorIsNotExposedForProtectedResourceWhenLoggedInWithInsufficientRights($config)
+    public function testRoutingErrorIsNotExposedForProtectedResourceWhenLoggedInWithInsufficientRights()
     {
-        $client = $this->createClient(array('test_case' => 'StandardFormLogin', 'root_config' => $config));
-        $client->insulate();
+        $client = $this->createClient(array('test_case' => 'StandardFormLogin'));
 
         $form = $client->request('GET', '/login')->selectButton('login')->form();
         $form['_username'] = 'johannes';
@@ -53,11 +41,6 @@ class SecurityRoutingIntegrationTest extends WebTestCase
         $client->request('GET', '/highly_protected_resource');
 
         $this->assertNotEquals(404, $client->getResponse()->getStatusCode());
-    }
-
-    public function getConfigs()
-    {
-        return array(array('config.yml'), array('routes_as_path.yml'));
     }
 
     protected function setUp()

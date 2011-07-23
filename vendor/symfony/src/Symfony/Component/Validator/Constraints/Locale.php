@@ -13,11 +13,7 @@ namespace Symfony\Component\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 
-/**
- * @Annotation
- *
- * @api
- */
+/** @Annotation */
 class Locale extends Constraint
 {
     public $message = 'This value is not a valid locale';

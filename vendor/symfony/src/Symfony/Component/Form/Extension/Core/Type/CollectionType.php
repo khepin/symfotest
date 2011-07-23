@@ -26,7 +26,7 @@ class CollectionType extends AbstractType
     {
         if ($options['allow_add'] && $options['prototype']) {
             $prototype = $builder->create('$$name$$', $options['type'], $options['options']);
-            $builder->setAttribute('prototype', $prototype->getForm());
+            $builder->setAttribute('prototype', $prototype);
         }
 
         $listener = new ResizeFormListener(
@@ -55,17 +55,7 @@ class CollectionType extends AbstractType
         ;
 
         if ($form->hasAttribute('prototype')) {
-            $view->set('prototype', $form->getAttribute('prototype')->createView($view));
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function buildViewBottomUp(FormView $view, FormInterface $form)
-    {
-        if ($form->hasAttribute('prototype') && $view->get('prototype')->get('multipart')) {
-            $view->set('multipart', true);
+            $view->set('prototype', $form->getAttribute('prototype'));
         }
     }
 

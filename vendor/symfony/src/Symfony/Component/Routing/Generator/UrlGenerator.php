@@ -28,10 +28,6 @@ use Symfony\Component\Routing\Exception\MissingMandatoryParametersException;
 class UrlGenerator implements UrlGeneratorInterface
 {
     protected $context;
-    protected $decodedChars = array(
-        // %2F is not valid in a URL, so we don't encode it (which is fine as the requirements explicitely allowed it)
-        '%2F' => '/',
-    );
 
     private $routes;
     private $cache;
@@ -120,7 +116,7 @@ class UrlGenerator implements UrlGeneratorInterface
         $optional = true;
         foreach ($tokens as $token) {
             if ('variable' === $token[0]) {
-                if (false === $optional || !array_key_exists($token[3], $defaults) || (isset($parameters[$token[3]]) && (string) $parameters[$token[3]] != (string) $defaults[$token[3]])) {
+                if (false === $optional || !array_key_exists($token[3], $defaults) || (isset($parameters[$token[3]]) && $parameters[$token[3]] != $defaults[$token[3]])) {
                     if (!$isEmpty = in_array($tparams[$token[3]], array(null, '', false), true)) {
                         // check requirement
                         if ($tparams[$token[3]] && !preg_match('#^'.$token[2].'$#', $tparams[$token[3]])) {
@@ -129,7 +125,7 @@ class UrlGenerator implements UrlGeneratorInterface
                     }
 
                     if (!$isEmpty || !$optional) {
-                        $url = $token[1].strtr(rawurlencode($tparams[$token[3]]), $this->decodedChars).$url;
+                        $url = $token[1].strtr($tparams[$token[3]], array('%'=>'%25', '+'=>'%2B')).$url;
                     }
 
                     $optional = false;
@@ -145,9 +141,8 @@ class UrlGenerator implements UrlGeneratorInterface
         }
 
         // add a query string if needed
-        $extra = array_diff_key($originParameters, $variables, $defaults);
-        if ($extra && $query = http_build_query($extra)) {
-            $url .= '?'.$query;
+        if ($extra = array_diff_key($originParameters, $variables, $defaults)) {
+            $url .= '?'.http_build_query($extra);
         }
 
         $url = $this->context->getBaseUrl().$url;

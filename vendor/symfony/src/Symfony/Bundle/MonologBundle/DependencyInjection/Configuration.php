@@ -37,6 +37,7 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->fixXmlConfig('handler')
+            ->fixXmlConfig('processor')
             ->children()
                 ->arrayNode('handlers')
                     ->canBeUnset()
@@ -73,19 +74,10 @@ class Configuration implements ConfigurationInterface
                             ->scalarNode('from_email')->end() // swift_mailer and native_mailer
                             ->scalarNode('to_email')->end() // swift_mailer and native_mailer
                             ->scalarNode('subject')->end() // swift_mailer and native_mailer
-                            ->arrayNode('email_prototype') // swift_mailer
-                                ->canBeUnset()
-                                ->beforeNormalization()
-                                    ->ifString()
-                                    ->then(function($v) { return array('id' => $v); })
-                                ->end()
-                                ->children()
-                                    ->scalarNode('id')->isRequired()->end()
-                                    ->scalarNode('factory-method')->defaultNull()->end()
-                                ->end()
-                            ->end()
+                            ->scalarNode('email_prototype')->end() // swift_mailer
                             ->scalarNode('formatter')->end()
                         ->end()
+                        ->append($this->getProcessorsNode())
                         ->validate()
                             ->ifTrue(function($v) { return ('fingers_crossed' === $v['type'] || 'buffer' === $v['type']) && 1 !== count($v['handler']); })
                             ->thenInvalid('The handler has to be specified to use a FingersCrossedHandler or BufferHandler')
@@ -109,8 +101,23 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
             ->end()
+            ->append($this->getProcessorsNode())
         ;
 
         return $treeBuilder;
+    }
+
+    private function getProcessorsNode()
+    {
+        $treeBuilder = new TreeBuilder();
+        $node = $treeBuilder->root('processors');
+
+        $node
+            ->canBeUnset()
+            ->performNoDeepMerging()
+            ->prototype('scalar')->end()
+        ;
+
+        return $node;
     }
 }

@@ -27,12 +27,10 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 class SessionListener
 {
     private $container;
-    private $autoStart;
 
-    public function __construct(ContainerInterface $container, $autoStart = false)
+    public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
-        $this->autoStart = $autoStart;
     }
 
     public function onKernelRequest(GetResponseEvent $event)
@@ -52,7 +50,7 @@ class SessionListener
 
         $request->setSession($session = $this->container->get('session'));
 
-        if ($this->autoStart || $request->hasPreviousSession()) {
+        if ($request->hasPreviousSession()) {
             $session->start();
         }
     }

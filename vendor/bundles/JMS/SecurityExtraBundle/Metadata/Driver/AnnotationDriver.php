@@ -58,7 +58,8 @@ class AnnotationDriver implements DriverInterface
 
             $annotations = $this->reader->getMethodAnnotations($method);
 
-            if ($annotations && null !== $methodMetadata = $this->converter->convertMethodAnnotations($method, $annotations)) {
+            if ($annotations) {
+                $methodMetadata = $this->converter->convertMethodAnnotations($method, $annotations);
                 $metadata->addMethodMetadata($methodMetadata);
             }
         }

@@ -91,8 +91,6 @@ class FormFactory implements FormFactoryInterface
     {
         $this->loadTypeExtensions($type);
 
-        $this->validateFormTypeName($type);
-
         $this->types[$type->getName()] = $type;
     }
 
@@ -379,8 +377,6 @@ class FormFactory implements FormFactoryInterface
 
         $this->loadTypeExtensions($type);
 
-        $this->validateFormTypeName($type);
-
         $this->types[$name] = $type;
     }
 
@@ -401,12 +397,5 @@ class FormFactory implements FormFactoryInterface
         }
 
         $type->setExtensions($typeExtensions);
-    }
-
-    private function validateFormTypeName(FormTypeInterface $type)
-    {
-        if (!preg_match('/^[a-z0-9_]+$/i', $type->getName())) {
-            throw new FormException(sprintf('The "%s" form type name ("%s") is not valid. Names must only contain letters, numbers, and "_".', get_class($type), $type->getName()));
-        }
     }
 }

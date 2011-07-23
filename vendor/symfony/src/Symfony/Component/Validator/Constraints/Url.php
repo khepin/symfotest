@@ -13,11 +13,7 @@ namespace Symfony\Component\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 
-/**
- * @Annotation
- *
- * @api
- */
+/** @Annotation */
 class Url extends Constraint
 {
     public $message = 'This value is not a valid URL';

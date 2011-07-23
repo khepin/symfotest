@@ -24,8 +24,6 @@ use Symfony\Component\HttpFoundation\Request;
  * Controllers should be callables.
  *
  * @author Bernhard Schussek <bernhard.schussek@symfony.com>
- *
- * @api
  */
 class FilterControllerEvent extends KernelEvent
 {
@@ -46,8 +44,6 @@ class FilterControllerEvent extends KernelEvent
      * Returns the current controller
      *
      * @return callable
-     *
-     * @api
      */
     public function getController()
     {
@@ -58,8 +54,6 @@ class FilterControllerEvent extends KernelEvent
      * Sets a new controller
      *
      * @param callable $controller
-     *
-     * @api
      */
     public function setController($controller)
     {

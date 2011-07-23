@@ -13,11 +13,7 @@ namespace Symfony\Component\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 
-/**
- * @Annotation
- *
- * @api
- */
+/** @Annotation */
 class False extends Constraint
 {
     public $message = 'This value should be false';

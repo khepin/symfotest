@@ -48,22 +48,7 @@ class XmlDriver extends BaseXmlDriver
 
     public function isTransient($className)
     {
-        if (null === $this->_classCache) {
-            $this->initialize();
-        }
-
-        // The mapping is defined in the global mapping file
-        if (isset($this->_classCache[$className])) {
-            return false;
-        }
-
-        try {
-            $this->_findMappingFile($className);
-
-            return false;
-        } catch (MappingException $e) {
-            return true;
-        }
+        return !in_array($className, $this->getAllClassNames());
     }
 
     public function getAllClassNames()

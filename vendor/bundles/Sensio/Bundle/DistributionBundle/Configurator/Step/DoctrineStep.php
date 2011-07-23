@@ -32,11 +32,6 @@ class DoctrineStep implements StepInterface
     public $host;
 
     /**
-     * @Assert\Min(0)
-     */
-    public $port;
-
-    /**
      * @Assert\NotBlank
      */
     public $name;

@@ -173,6 +173,13 @@ class DateTimeType extends AbstractType
                 'text',
                 'choice',
             ),
+            'date_format' => array(
+                null, // inherit default from DateType
+                \IntlDateFormatter::FULL,
+                \IntlDateFormatter::LONG,
+                \IntlDateFormatter::MEDIUM,
+                \IntlDateFormatter::SHORT,
+             ),
             'time_widget' => array(
                 null, // inherit default from TimeType
                 'single_text',

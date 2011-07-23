@@ -26,8 +26,6 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  * HttpKernel notifies events to convert a Request object to a Response one.
  *
  * @author Fabien Potencier <fabien@symfony.com>
- *
- * @api
  */
 class HttpKernel implements HttpKernelInterface
 {
@@ -39,8 +37,6 @@ class HttpKernel implements HttpKernelInterface
      *
      * @param EventDispatcherInterface    $dispatcher An EventDispatcherInterface instance
      * @param ControllerResolverInterface $resolver   A ControllerResolverInterface instance
-     *
-     * @api
      */
     public function __construct(EventDispatcherInterface $dispatcher, ControllerResolverInterface $resolver)
     {
@@ -62,8 +58,6 @@ class HttpKernel implements HttpKernelInterface
      * @return Response A Response instance
      *
      * @throws \Exception When an Exception occurs during processing
-     *
-     * @api
      */
     public function handle(Request $request, $type = HttpKernelInterface::MASTER_REQUEST, $catch = true)
     {

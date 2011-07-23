@@ -23,8 +23,6 @@ use Symfony\Component\HttpFoundation\Response;
  * browser.
  *
  * @author Bernhard Schussek <bernhard.schussek@symfony.com>
- *
- * @api
  */
 class FilterResponseEvent extends KernelEvent
 {
@@ -45,8 +43,6 @@ class FilterResponseEvent extends KernelEvent
      * Returns the current response object
      *
      * @return Symfony\Component\HttpFoundation\Response
-     *
-     * @api
      */
     public function getResponse()
     {
@@ -57,8 +53,6 @@ class FilterResponseEvent extends KernelEvent
      * Sets a new response object
      *
      * @param Symfony\Component\HttpFoundation\Response $response
-     *
-     * @api
      */
     public function setResponse(Response $response)
     {

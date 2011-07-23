@@ -14,7 +14,6 @@ namespace Symfony\Component\HttpKernel\DependencyInjection;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
-use Symfony\Component\HttpKernel\Kernel;
 
 /**
  * Sets the classes to compile in the cache for the container.
@@ -23,13 +22,6 @@ use Symfony\Component\HttpKernel\Kernel;
  */
 class AddClassesToCachePass implements CompilerPassInterface
 {
-    private $kernel;
-
-    public function __construct(Kernel $kernel)
-    {
-        $this->kernel = $kernel;
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -42,6 +34,6 @@ class AddClassesToCachePass implements CompilerPassInterface
             }
         }
 
-        $this->kernel->setClassCache(array_unique($container->getParameterBag()->resolveValue($classes)));
+        $container->setParameter('kernel.compiled_classes', array_unique($classes));
     }
 }

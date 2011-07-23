@@ -161,10 +161,7 @@ class Route
      */
     public function setDefaults(array $defaults)
     {
-        $this->defaults = array();
-        foreach ($defaults as $name => $default) {
-            $this->defaults[(string) $name] = $default;
-        }
+        $this->defaults = $defaults;
 
         return $this;
     }
@@ -205,7 +202,7 @@ class Route
      */
     public function setDefault($name, $default)
     {
-        $this->defaults[(string) $name] = $default;
+        $this->defaults[$name] = $default;
 
         return $this;
     }

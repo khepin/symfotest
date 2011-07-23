@@ -31,20 +31,12 @@ class TwigResource implements ResourceInterface
 
     public function getContent()
     {
-        try {
-            return $this->loader->getSource($this->name);
-        } catch (\Twig_Error_Loader $e) {
-            return '';
-        }
+        return $this->loader->getSource($this->name);
     }
 
     public function isFresh($timestamp)
     {
-        try {
-            return $this->loader->isFresh($this->name, $timestamp);
-        } catch (\Twig_Error_Loader $e) {
-            return false;
-        }
+        return $this->loader->isFresh($this->name, $timestamp);
     }
 
     public function __toString()

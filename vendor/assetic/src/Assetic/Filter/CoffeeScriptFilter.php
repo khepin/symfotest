@@ -33,21 +33,16 @@ class CoffeeScriptFilter implements FilterInterface
 
     public function filterLoad(AssetInterface $asset)
     {
-        $input = tempnam(sys_get_temp_dir(), 'assetic_coffeescript');
-        file_put_contents($input, $asset->getContent());
-
         $pb = new ProcessBuilder();
         $pb
-            ->inheritEnvironmentVariables()
             ->add($this->nodePath)
             ->add($this->coffeePath)
-            ->add('-cp')
-            ->add($input)
+            ->add('-sc')
+            ->setInput($asset->getContent());
         ;
 
         $proc = $pb->getProcess();
         $code = $proc->run();
-        unlink($input);
 
         if (0 < $code) {
             throw new \RuntimeException($proc->getErrorOutput());

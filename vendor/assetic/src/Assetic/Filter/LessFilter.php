@@ -82,7 +82,6 @@ EOF;
         }
 
         $pb = new ProcessBuilder();
-        $pb->inheritEnvironmentVariables();
 
         // node.js configuration
         if (0 < count($this->nodePaths)) {

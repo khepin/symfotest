@@ -19,6 +19,7 @@ use Symfony\Component\DependencyInjection\DefinitionDecorator;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Bundle\DoctrineAbstractBundle\DependencyInjection\AbstractDoctrineExtension;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\Config\Definition\Processor;
 
 /**
  * DoctrineExtension is an extension for the Doctrine DBAL and ORM library.
@@ -31,8 +32,9 @@ class DoctrineExtension extends AbstractDoctrineExtension
 {
     public function load(array $configs, ContainerBuilder $container)
     {
+        $processor = new Processor();
         $configuration = new Configuration($container->getParameter('kernel.debug'));
-        $config = $this->processConfiguration($configuration, $configs);
+        $config = $processor->processConfiguration($configuration, $configs);
 
         if (!empty($config['dbal'])) {
             $this->dbalLoad($config['dbal'], $container);
@@ -387,7 +389,7 @@ class DoctrineExtension extends AbstractDoctrineExtension
 
         $cacheDef->setPublic(false);
         // generate a unique namespace for the given application
-        $namespace = 'sf2orm_'.$entityManager['name'].'_'.md5($container->getParameter('kernel.root_dir').$container->getParameter('kernel.environment'));
+        $namespace = 'sf2orm_'.$entityManager['name'].'_'.md5($container->getParameter('kernel.root_dir'));
         $cacheDef->addMethodCall('setNamespace', array($namespace));
 
         return $cacheDef;

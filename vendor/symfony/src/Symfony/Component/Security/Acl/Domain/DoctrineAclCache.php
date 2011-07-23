@@ -165,7 +165,7 @@ class DoctrineAclCache implements AclCacheInterface
         $reflectionProperty->setValue($acl, $this->permissionGrantingStrategy);
         $reflectionProperty->setAccessible(false);
 
-        $aceAclProperty = new \ReflectionProperty('Symfony\Component\Security\Acl\Domain\Entry', 'acl');
+        $aceAclProperty = new \ReflectionProperty('Symfony\Component\Security\Acl\Domain\Entry', 'id');
         $aceAclProperty->setAccessible(true);
 
         foreach ($acl->getObjectAces() as $ace) {

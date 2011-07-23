@@ -17,22 +17,16 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  * BundleInterface.
  *
  * @author Fabien Potencier <fabien@symfony.com>
- *
- * @api
  */
 interface BundleInterface
 {
     /**
      * Boots the Bundle.
-     *
-     * @api
      */
     function boot();
 
     /**
      * Shutdowns the Bundle.
-     *
-     * @api
      */
     function shutdown();
 
@@ -42,8 +36,6 @@ interface BundleInterface
      * It is only ever called once when the cache is empty.
      *
      * @param ContainerBuilder $container A ContainerBuilder instance
-     *
-     * @api
      */
     function build(ContainerBuilder $container);
 
@@ -51,8 +43,6 @@ interface BundleInterface
      * Returns the container extension that should be implicitly loaded.
      *
      * @return ExtensionInterface|null The default extension or null if there is none
-     *
-     * @api
      */
     function getContainerExtension();
 
@@ -60,8 +50,6 @@ interface BundleInterface
      * Returns the bundle parent name.
      *
      * @return string The Bundle parent name it overrides or null if no parent
-     *
-     * @api
      */
     function getParent();
 
@@ -69,8 +57,6 @@ interface BundleInterface
      * Returns the bundle name (the class short name).
      *
      * @return string The Bundle name
-     *
-     * @api
      */
     function getName();
 
@@ -78,8 +64,6 @@ interface BundleInterface
      * Gets the Bundle namespace.
      *
      * @return string The Bundle namespace
-     *
-     * @api
      */
     function getNamespace();
 
@@ -89,8 +73,6 @@ interface BundleInterface
      * The path should always be returned as a Unix path (with /).
      *
      * @return string The Bundle absolute path
-     *
-     * @api
      */
     function getPath();
 }

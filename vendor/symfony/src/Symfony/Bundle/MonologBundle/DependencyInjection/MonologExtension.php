@@ -15,6 +15,7 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\DependencyInjection\Parameter;
@@ -38,7 +39,8 @@ class MonologExtension extends Extension
     public function load(array $configs, ContainerBuilder $container)
     {
         $configuration = new Configuration();
-        $config = $this->processConfiguration($configuration, $configs);
+        $processor = new Processor();
+        $config = $processor->processConfiguration($configuration, $configs);
 
         if (isset($config['handlers'])) {
             $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
@@ -46,6 +48,10 @@ class MonologExtension extends Extension
             $container->setAlias('logger', 'monolog.logger');
 
             $logger = $container->getDefinition('monolog.logger_prototype');
+
+            if (!empty($config['processors'])) {
+                $this->addProcessors($logger, $config['processors']);
+            }
 
             $handlers = array();
             foreach ($config['handlers'] as $name => $handler) {
@@ -184,11 +190,7 @@ class MonologExtension extends Extension
 
         case 'swift_mailer':
             if (isset($handler['email_prototype'])) {
-                if (!empty($handler['email_prototype']['method'])) {
-                    $prototype = array(new Reference($handler['email_prototype']['id']), $handler['email_prototype']['method']);
-                } else {
-                    $prototype = new Reference($handler['email_prototype']['id']);
-                }
+                $prototype = $this->parseDefinition($handler['email_prototype']);
             } else {
                 $message = new Definition('Swift_Message');
                 $message->setFactoryService('mailer');
@@ -236,6 +238,9 @@ class MonologExtension extends Extension
         if (!empty($handler['formatter'])) {
             $definition->addMethodCall('setFormatter', array(new Reference($handler['formatter'])));
         }
+        if (!empty($handler['processors'])) {
+            $this->addProcessors($definition, $handler['processors']);
+        }
         $container->setDefinition($handlerId, $definition);
 
         return $handlerId;
@@ -244,5 +249,21 @@ class MonologExtension extends Extension
     private function getHandlerId($name)
     {
         return sprintf('monolog.handler.%s', $name);
+    }
+
+    private function addProcessors(Definition $definition, array $processors)
+    {
+        foreach (array_reverse($processors) as $processor) {
+            $definition->addMethodCall('pushProcessor', array($this->parseDefinition($processor)));
+        }
+    }
+
+    private function parseDefinition($definition)
+    {
+        if (0 === strpos($definition, '@')) {
+            return new Reference(substr($definition, 1));
+        }
+
+        return $definition;
     }
 }

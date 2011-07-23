@@ -15,7 +15,6 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Bundle\MonologBundle\DependencyInjection\Compiler\LoggerChannelPass;
 use Symfony\Bundle\MonologBundle\DependencyInjection\Compiler\DebugHandlerPass;
-use Symfony\Bundle\MonologBundle\DependencyInjection\Compiler\AddProcessorsPass;
 
 /**
  * Bundle.
@@ -30,6 +29,5 @@ class MonologBundle extends Bundle
 
         $container->addCompilerPass(new LoggerChannelPass());
         $container->addCompilerPass(new DebugHandlerPass());
-        $container->addCompilerPass(new AddProcessorsPass());
     }
 }

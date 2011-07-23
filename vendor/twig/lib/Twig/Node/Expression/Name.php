@@ -34,8 +34,10 @@ class Twig_Node_Expression_Name extends Twig_Node_Expression
             }
         } elseif (isset($specialVars[$name])) {
             $compiler->raw($specialVars[$name]);
-        } else {
+        } elseif ($compiler->getEnvironment()->isStrictVariables()) {
             $compiler->raw(sprintf('$this->getContext($context, \'%s\')', $name));
+        } else {
+            $compiler->raw(sprintf('(isset($context[\'%s\']) ? $context[\'%s\'] : null)', $name, $name));
         }
     }
 }

@@ -77,11 +77,7 @@ class Command
     public function setApplication(Application $application = null)
     {
         $this->application = $application;
-        if ($application) {
-            $this->setHelperSet($application->getHelperSet());
-        } else {
-            $this->helperSet = null;
-        }
+        $this->setHelperSet($application->getHelperSet());
     }
 
     /**

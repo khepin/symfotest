@@ -24,8 +24,6 @@ use Symfony\Component\BrowserKit\CookieJar;
  * Client simulates a browser and makes requests to a Kernel object.
  *
  * @author Fabien Potencier <fabien@symfony.com>
- *
- * @api
  */
 class Client extends BaseClient
 {
@@ -67,13 +65,13 @@ class Client extends BaseClient
      */
     protected function getScript($request)
     {
-        $kernel = str_replace("'", "\\'", serialize($this->kernel));
-        $request = str_replace("'", "\\'", serialize($request));
+        $kernel = serialize($this->kernel);
+        $request = serialize($request);
 
         $r = new \ReflectionClass('\\Symfony\\Component\\ClassLoader\\UniversalClassLoader');
-        $requirePath = str_replace("'", "\\'", $r->getFileName());
+        $requirePath = $r->getFileName();
 
-        $symfonyPath = str_replace("'", "\\'", realpath(__DIR__.'/../../..'));
+        $symfonyPath = realpath(__DIR__.'/../../..');
 
         return <<<EOF
 <?php
@@ -108,13 +106,8 @@ EOF;
     /**
      * Filters an array of files.
      *
-     * This method created test instances of UploadedFile so that the move()
-     * method can be called on those instances.
-     *
-     * If the size of a file is greater than the allowed size (from php.ini) then
-     * an invalid UploadedFile is returned with an error set to UPLOAD_ERR_INI_SIZE.
-     *
-     * @see Symfony\Component\HttpFoundation\File\UploadedFile
+     * This method marks all uploaded files as already moved thus avoiding
+     * UploadedFile's call to move_uploaded_file(), which would otherwise fail.
      *
      * @param array $files An array of files
      *
@@ -127,25 +120,15 @@ EOF;
             if (is_array($value)) {
                 $filtered[$key] = $this->filterFiles($value);
             } elseif ($value instanceof UploadedFile) {
-                if ($value->isValid() && $value->getSize() > UploadedFile::getMaxFilesize()) {
-                    $filtered[$key] = new UploadedFile(
-                        '',
-                        $value->getClientOriginalName(),
-                        $value->getClientMimeType(),
-                        0,
-                        UPLOAD_ERR_INI_SIZE,
-                        true
-                    );
-                } else {
-                    $filtered[$key] = new UploadedFile(
-                        $value->getPathname(),
-                        $value->getClientOriginalName(),
-                        $value->getClientMimeType(),
-                        $value->getClientSize(),
-                        $value->getError(),
-                        true
-                    );
-                }
+                // Create a test mode UploadedFile
+                $filtered[$key] = new UploadedFile(
+                    $value->getPathname(),
+                    $value->getClientOriginalName(),
+                    $value->getClientMimeType(),
+                    $value->getClientSize(),
+                    $value->getError(),
+                    true
+                );
             } else {
                 $filtered[$key] = $value;
             }

@@ -18,7 +18,6 @@ use Symfony\Component\Form\Util\VirtualFormAwareIterator;
 use Symfony\Component\Form\Exception\FormException;
 use Symfony\Component\Validator\ValidatorInterface;
 use Symfony\Component\Validator\ExecutionContext;
-use Symfony\Component\Form\Util\PropertyPath;
 
 class DelegatingValidator implements FormValidatorInterface
 {
@@ -54,29 +53,11 @@ class DelegatingValidator implements FormValidatorInterface
                     $form->getAttribute('validation_constraint'),
                     self::getFormValidationGroups($form)
                 );
+            } else {
+                $violations = $this->validator->validate($form);
+            }
 
-                if ($violations) {
-                    foreach ($violations as $violation) {
-                        $propertyPath = new PropertyPath($violation->getPropertyPath());
-                        $template = $violation->getMessageTemplate();
-                        $parameters = $violation->getMessageParameters();
-                        $error = new FormError($template, $parameters);
-
-                        $child = $form;
-                        foreach ($propertyPath->getElements() as $element) {
-                            $children = $child->getChildren();
-                            if (!isset($children[$element])) {
-                                $form->addError($error);
-                                break;
-                            }
-
-                            $child = $children[$element];
-                        }
-
-                        $child->addError($error);
-                    }
-                }
-            } elseif ($violations = $this->validator->validate($form)) {
+            if ($violations) {
                 foreach ($violations as $violation) {
                     $propertyPath = $violation->getPropertyPath();
                     $template = $violation->getMessageTemplate();

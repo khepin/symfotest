@@ -26,7 +26,6 @@ use Symfony\Component\HttpKernel\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -76,11 +75,6 @@ class ExceptionListener
         $exception = $event->getException();
         $request = $event->getRequest();
 
-        // determine the actual cause for the exception
-        while (null !== $previous = $exception->getPrevious()) {
-            $exception = $previous;
-        }
-
         if ($exception instanceof AuthenticationException) {
             if (null !== $this->logger) {
                 $this->logger->info(sprintf('Authentication exception occurred; redirecting to authentication entry point (%s)', $exception->getMessage()));
@@ -119,16 +113,16 @@ class ExceptionListener
                         if (!$response instanceof Response) {
                             return;
                         }
-                    } elseif (null !== $this->errorPage) {
+                    } else {
+                        if (null === $this->errorPage) {
+                            return;
+                        }
+
                         $subRequest = $this->httpUtils->createRequest($request, $this->errorPage);
                         $subRequest->attributes->set(SecurityContextInterface::ACCESS_DENIED_ERROR, $exception);
 
                         $response = $event->getKernel()->handle($subRequest, HttpKernelInterface::SUB_REQUEST, true);
                         $response->setStatusCode(403);
-                    } else {
-                        $event->setException(new AccessDeniedHttpException($exception->getMessage(), $exception));
-
-                        return;
                     }
                 } catch (\Exception $e) {
                     if (null !== $this->logger) {

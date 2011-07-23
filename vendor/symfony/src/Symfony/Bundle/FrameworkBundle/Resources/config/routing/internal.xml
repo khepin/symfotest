@@ -6,7 +6,5 @@
 
   <route id="_internal" pattern="/{controller}/{path}.{_format}">
     <default key="_controller">FrameworkBundle:Internal:index</default>
-    <requirement key="path">.+</requirement>
-    <requirement key="_format">[^.]+</requirement>
   </route>
 </routes>

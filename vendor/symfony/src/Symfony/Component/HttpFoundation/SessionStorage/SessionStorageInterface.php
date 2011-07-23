@@ -15,15 +15,11 @@ namespace Symfony\Component\HttpFoundation\SessionStorage;
  * SessionStorageInterface.
  *
  * @author Fabien Potencier <fabien@symfony.com>
- *
- * @api
  */
 interface SessionStorageInterface
 {
     /**
      * Starts the session.
-     *
-     * @api
      */
     function start();
 
@@ -33,8 +29,6 @@ interface SessionStorageInterface
      * @return mixed  The session ID
      *
      * @throws \RuntimeException If the session was not started yet
-     *
-     * @api
      */
     function getId();
 
@@ -48,8 +42,6 @@ interface SessionStorageInterface
      * @return mixed Data associated with the key
      *
      * @throws \RuntimeException If an error occurs while reading data from this storage
-     *
-     * @api
      */
     function read($key);
 
@@ -63,8 +55,6 @@ interface SessionStorageInterface
      * @return mixed Data associated with the key
      *
      * @throws \RuntimeException If an error occurs while removing data from this storage
-     *
-     * @api
      */
     function remove($key);
 
@@ -77,8 +67,6 @@ interface SessionStorageInterface
      * @param  mixed  $data  Data associated with your key
      *
      * @throws \RuntimeException If an error occurs while writing to this storage
-     *
-     * @api
      */
     function write($key, $data);
 
@@ -90,8 +78,6 @@ interface SessionStorageInterface
      * @return Boolean True if session regenerated, false if error
      *
      * @throws \RuntimeException If an error occurs while regenerating this storage
-     *
-     * @api
      */
     function regenerate($destroy = false);
 }

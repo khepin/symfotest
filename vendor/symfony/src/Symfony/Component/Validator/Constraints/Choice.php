@@ -13,17 +13,12 @@ namespace Symfony\Component\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 
-/**
- * @Annotation
- *
- * @api
- */
+/** @Annotation */
 class Choice extends Constraint
 {
     public $choices;
     public $callback;
     public $multiple = false;
-    public $strict = false;
     public $min = null;
     public $max = null;
     public $message = 'The value you selected is not a valid choice';

@@ -286,8 +286,7 @@ abstract class Client
      */
     protected function doRequestInProcess($request)
     {
-        // We set the TMPDIR because on Macs, the temp directory changes based on the user.
-        $process = new PhpProcess($this->getScript($request), null, array('TMPDIR' => sys_get_temp_dir()));
+        $process = new PhpProcess($this->getScript($request));
         $process->run();
 
         if (!$process->isSuccessful() || !preg_match('/^O\:\d+\:/', $process->getOutput())) {
@@ -418,7 +417,7 @@ abstract class Client
     /**
      * Restarts the client.
      *
-     * It flushes history and all cookies.
+     * It flushes all cookies.
      *
      * @api
      */
