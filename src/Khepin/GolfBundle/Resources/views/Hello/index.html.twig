@@ -3,5 +3,6 @@
 {% block title %}Hello {{ name }}!{% endblock %}
 
 {% block body %}
-    Hello {{ name }}!
+    Hello {{ name }}! And a change, to confirm!
+    {% render "KhepinGolfBundle:Hello:embed" with { 'name': 'Claude' } %}
 {% endblock %}

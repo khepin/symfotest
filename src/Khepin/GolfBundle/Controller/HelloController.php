@@ -18,4 +18,11 @@ class HelloController extends Controller {
     public function indexAction($name) {
         return array('name' => $name);
     }
+    
+    /**
+     * @Template()
+     */
+    public function embedAction($name){
+        return array('name' => $name);
+    }
 }
