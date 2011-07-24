@@ -18,6 +18,7 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
             new Khepin\GolfBundle\KhepinGolfBundle(),
+            new Khepin\StoreBundle\KhepinStoreBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

@@ -1,0 +1,26 @@
+{% extends "::base.html.twig" %}
+
+{% block body %}
+<table>
+    <tr>
+        <td>Product Id:</td>
+        <td>{{ product.id }}</td>
+    </tr>
+    <tr>
+        <td>Product Name:</td>
+        <td>{{ product.name}}</td>
+    </tr>
+    <tr>
+        <td>Product Description:</td>
+        <td>{{ product.description }}</td>
+    </tr>
+    <tr>
+        <td>Product Price:</td>
+        <td>{{ product.price }}</td>
+    </tr>
+    <tr>
+        <td>Product Category:</td>
+        <td>{{ product.category.name }}</td>
+    </tr>
+</table>
+{% endblock %}
